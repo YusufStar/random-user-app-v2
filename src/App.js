@@ -10,7 +10,11 @@ function App() {
   const url = "https://randomuser.me/api";
 
   function Adduser() {
-    Setlist([...list, {data}]);
+    if (list) {
+      if (list.filter(x => x.data.login.uuid === data.login.uuid).length === 0) {
+        Setlist([...list, {data}]);
+      }
+    }
     console.log(list);
   }
 
@@ -52,7 +56,7 @@ function App() {
         </div>
         <div className="w-[90%] h-[250px] flex flex-col gap-3 overflow-y-scroll">
           {list?.map((user) => (
-            <div className="w-[100%] h-[75px] items-center flex flex-row justify-between">
+            <div className="w-[100%] h-[75px] items-center flex flex-row justify-between" key={user?.data.name.first}>
               <img src={user?.data.picture.medium} alt="profile pic. list" className="rounded-full" />
               <h1 className="text-lg text-white">{user?.data.name.title}. {user?.data.name.first} {user?.data.name.last}</h1>
               <div className="w-[30%] h-[50%] flex flex-col items-start justif-center">
